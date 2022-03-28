@@ -42,6 +42,9 @@ export class EscPosTemplate {
   }
 
   static interpretLine(line, printer, data = null) {
+    if (!line || line.startsWith('#'))
+      return;
+
     const instructions = line.split(";");
     instructions.forEach(instruction => {
       instruction = instruction.trim();
@@ -150,5 +153,8 @@ EscPosTemplate.defaultVars = {
   double: "double",
   left: "left",
   center: "center",
-  right: "right"
+  right: "right",
+  a: "a",
+  b: "b",
+  c: "c"
 };

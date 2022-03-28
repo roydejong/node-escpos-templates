@@ -40,6 +40,10 @@ describe('EscPosTemplate', () => {
       EscPosTemplate.interpretLine("", mockPrinter);
     });
 
+    it('should do nothing for a commented line', () => {
+      EscPosTemplate.interpretLine("# this is a comment", mockPrinter);
+    });
+
     it('should throw for a badly formatted line', () => {
       assert.throws(() => {
         EscPosTemplate.interpretLine('"not valid"', mockPrinter);

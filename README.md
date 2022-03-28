@@ -72,7 +72,6 @@ template.print(printer, {name: "Bob"});
 
 ### Advanced example with formatting and loop
 
-
 ## Supported commands
 
 These are the commands that are currently implemented for use in the templates:
@@ -86,4 +85,23 @@ These are the commands that are currently implemented for use in the templates:
 | `cashdraw [p]`  | Pulses the cash drawer kick on pin `p`        | 
 | `align [a]`     | Align text `left`, `center` or `right`        | 
 | `bold [t]`      | Set bold / emphasis to `off` or `on`          | 
-| `underline [t]` | Set underline mode to `off`, `on` or `double` | 
+| `underline [t]` | Set underline mode to `off`, `on` or `double` |
+| `font [f]`      | Set font to `a`, `b`, or `c`                  | 
+| `reset`         | Resets formatting options to their defaults   | 
+
+## Additional information
+
+### Template syntax
+Some details about the template syntax this library uses:
+- Each line is evaluated separately;
+  - Empty lines are ignored
+  - Lines that start with a hash `#` are ignored (comment)
+- Each line is parsed for instructions;
+  - Multiple instructions can be split using a semicolon `;`
+  - Each instruction starts with an alphanumeric opcode (e.g. `print`)
+  - Each instruction can have any amount of arguments, split by a space or tab
+- Each argument can be passed as a string literal or variable;
+  - Double quotes should `"` wrap around a string literal
+  - Backslash ` \ ` can be used as an escape character anywhere
+  - Any argument that isn't a string literal must be an integer or variable reference
+  - Some variables are predefined (e.g. `true`, `false` and options listed in the table above)
