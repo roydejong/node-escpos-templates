@@ -77,11 +77,13 @@ template.print(printer, {name: "Bob"});
 
 These are the commands that are currently implemented for use in the templates:
 
-| Syntax         | Details                                    |
-|----------------|--------------------------------------------|
-| `print [text]` | Prints one line of `text`                  |
-| `feed [n]`     | Feed `n` amount of lines.                  |
-| `beep [n] [t]` | Beep `n` times for `t` × 100 ms duration   |
-| `cut`          | Feeds one line then performs a full cut    |
-| `cashdraw [p]` | Pulses the cash drawer kick on pin `p`     | 
-| `align [a]`    | Align text `left`, `center` or `right`     | 
+| Syntax          | Details                                       |
+|-----------------|-----------------------------------------------|
+| `print [text]`  | Prints one line of `text`                     |
+| `feed [n]`      | Feed `n` amount of lines.                     |
+| `beep [n] [t]`  | Beep `n` times for `t` × 100 ms duration      |
+| `cut`           | Feeds one line then performs a full cut       |
+| `cashdraw [p]`  | Pulses the cash drawer kick on pin `p`        | 
+| `align [a]`     | Align text `left`, `center` or `right`        | 
+| `bold [t]`      | Set bold / emphasis to `off` or `on`          | 
+| `underline [t]` | Set underline mode to `off`, `on` or `double` | 

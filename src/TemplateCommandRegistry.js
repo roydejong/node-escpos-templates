@@ -64,6 +64,52 @@ export default class TemplateCommandRegistry {
       },
       1
     ));
+
+    this.add(new TemplateCommand(
+      "bold",
+      (printer, args) => {
+        switch (args[0].toString()) {
+          case "1":
+          case "true":
+          case "on":
+            printer.text("\x1b\x45\x01"); // Bold font ON
+            break;
+          case "0":
+          case "false":
+          case "off":
+            printer.text("\x1b\x45\x00"); // Bold font OFF
+            break;
+          default:
+            throw new Error($`Invalid bold mode: ${args[0]}`);
+        }
+      },
+      1
+    ));
+
+    this.add(new TemplateCommand(
+      "underline",
+      (printer, args) => {
+        switch (args[0].toString()) {
+          case "1":
+          case "true":
+          case "on":
+            printer.text("\x1b\x2d\x01"); // Underline font 1-dot ON
+            break;
+          case "2":
+          case "double":
+            printer.text("\x1b\x2d\x02"); // Underline font 2-dot ON
+            break;
+          case "0":
+          case "false":
+          case "off":
+            printer.text("\x1b\x2d\x00"); // Underline font OFF
+            break;
+          default:
+            throw new Error($`Invalid bold mode: ${args[0]}`);
+        }
+      },
+      1
+    ));
   }
 
   static add(templateCommand) {

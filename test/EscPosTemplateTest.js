@@ -26,6 +26,13 @@ describe('EscPosTemplate', () => {
       template.print(mockPrinter);
       assert.deepEqual(mockPrinter.commands, [`align:ct`]);
     });
+
+    it('should correctly execute formatting commands', () => {
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`align center; bold on; underline double;`);
+      template.print(mockPrinter);
+      assert.deepEqual(mockPrinter.commands, [`align:ct`, `text:\x1b\x45\x01`, `text:\x1b\x2d\x02`]);
+    });
   });
 
   describe('#interpetLine()', () => {

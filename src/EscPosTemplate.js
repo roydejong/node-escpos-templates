@@ -143,6 +143,11 @@ export class EscPosTemplate {
 }
 
 EscPosTemplate.defaultVars = {
+  true: true,
+  false: false,
+  on: true,
+  off: false,
+  double: "double",
   left: "left",
   center: "center",
   right: "right"
