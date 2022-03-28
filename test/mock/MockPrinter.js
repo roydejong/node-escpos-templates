@@ -12,4 +12,5 @@ export default class MockPrinter {
   cut(arg0, arg1) { this.commands.push(`cut:${arg0}:${arg1}`) }
   beep(arg0, arg1) { this.commands.push(`beep:${arg0}:${arg1}`) }
   cashdraw(arg0) { this.commands.push(`cashdraw:${arg0}`) }
+  align(arg0) { this.commands.push(`align:${arg0}`) }
 }

@@ -38,6 +38,32 @@ export default class TemplateCommandRegistry {
         printer.cashdraw(parseInt(args[0])),
       1
     ));
+
+    this.add(new TemplateCommand(
+      "align",
+      (printer, args) => {
+        switch (args[0]) {
+          case "l":
+          case "lt":
+          case "left":
+            printer.align("lt");
+            break;
+          case "c":
+          case "ct":
+          case "center":
+            printer.align("ct");
+            break;
+          case "r":
+          case "rt":
+          case "right":
+            printer.align("rt");
+            break;
+          default:
+            throw new Error($`Invalid align mode: ${args[0]}`);
+        }
+      },
+      1
+    ));
   }
 
   static add(templateCommand) {

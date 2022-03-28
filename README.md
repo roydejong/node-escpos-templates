@@ -70,14 +70,18 @@ print name;
 template.print(printer, {name: "Bob"});
 ```
 
+### Advanced example with formatting and loop
+
+
 ## Supported commands
 
 These are the commands that are currently implemented for use in the templates:
 
-| Syntax           | Details                                  |
-|------------------|------------------------------------------|
-| `print [text]`   | Prints one line of `text`                |
-| `feed [n]`       | Feed `n` amount of lines.                |
-| `beep [n] [t]`   | Beep `n` times for `t` × 100 ms duration |
-| `cut`            | Feeds one line then performs a full cut  |
-| `cashdraw [p]`   | Pulses the cash drawer kick on pin `p`   | 
+| Syntax         | Details                                    |
+|----------------|--------------------------------------------|
+| `print [text]` | Prints one line of `text`                  |
+| `feed [n]`     | Feed `n` amount of lines.                  |
+| `beep [n] [t]` | Beep `n` times for `t` × 100 ms duration   |
+| `cut`          | Feeds one line then performs a full cut    |
+| `cashdraw [p]` | Pulses the cash drawer kick on pin `p`     | 
+| `align [a]`    | Align text `left`, `center` or `right`     | 

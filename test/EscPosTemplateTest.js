@@ -2,22 +2,29 @@ import * as assert from "assert";
 import MockPrinter from "./mock/MockPrinter.js";
 import {EscPosTemplate} from "../src/EscPosTemplate.js";
 
-const templateText = "";
-const template = new EscPosTemplate(templateText);
 const mockPrinter = new MockPrinter();
 
 describe('EscPosTemplate', () => {
   describe('#print()', () => {
     it('should throw on invalid printer argument', () => {
       assert.throws(() => {
+        const template = new EscPosTemplate("");
         template.print({ "notAPrinter": true });
       }, Error);
     });
 
     it('should throw on invalid data argument', () => {
       assert.throws(() => {
+        const template = new EscPosTemplate("");
         template.print(mockPrinter, "not a data object");
       }, Error);
+    });
+
+    it('should use default variables for common strings', () => {
+      mockPrinter.reset();
+      const template = new EscPosTemplate("align center;");
+      template.print(mockPrinter);
+      assert.deepEqual(mockPrinter.commands, [`align:ct`]);
     });
   });
 
@@ -66,6 +73,12 @@ describe('EscPosTemplate', () => {
       mockPrinter.reset();
       EscPosTemplate.interpretLine("print \"Hello {{varName}}-{{ varName }}!\"", mockPrinter, {varName: "Bob"});
       assert.deepEqual(mockPrinter.commands, ["text:Hello Bob-Bob!"]);
+    });
+
+    it('should correctly interpret escape sequences in string literals', () => {
+      mockPrinter.reset();
+      EscPosTemplate.interpretLine(`print "This is an \\"escape\\" sequence test!"`, mockPrinter);
+      assert.deepEqual(mockPrinter.commands, [`text:This is an "escape" sequence test!`]);
     });
   });
 });

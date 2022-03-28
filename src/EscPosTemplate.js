@@ -14,6 +14,11 @@ export class EscPosTemplate {
     if (data && typeof data !== "object")
       throw new Error("Invalid data argument: must be object or null");
 
+    if (!data) {
+      data = {};
+    }
+    data = Object.assign({ }, data, EscPosTemplate.defaultVars);
+
     const templateLines = this.templateText.split("\n");
 
     let lineNumber = 0;
@@ -136,3 +141,9 @@ export class EscPosTemplate {
     return templateText;
   }
 }
+
+EscPosTemplate.defaultVars = {
+  left: "left",
+  center: "center",
+  right: "right"
+};
