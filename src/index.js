@@ -1,0 +1,1 @@
+export TemplateEngine from "./EscPosTemplate";
