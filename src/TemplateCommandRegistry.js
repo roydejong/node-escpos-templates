@@ -105,10 +105,38 @@ export default class TemplateCommandRegistry {
             printer.text("\x1b\x2d\x00"); // Underline font OFF
             break;
           default:
-            throw new Error($`Invalid bold mode: ${args[0]}`);
+            throw new Error($`Invalid underline mode: ${args[0]}`);
         }
       },
       1
+    ));
+
+    this.add(new TemplateCommand(
+      "font",
+      (printer, args) => {
+        switch (args[0].toString()) {
+          case "a":
+            printer.font('a');
+            break;
+          case "b":
+            printer.font('b');
+            break;
+          default:
+            throw new Error($`Invalid font mode: ${args[0]}`);
+        }
+      },
+      1
+    ));
+
+    this.add(new TemplateCommand(
+      "reset",
+      (printer, args) => {
+        this.invoke(printer, "align", ["left"]);
+        this.invoke(printer, "bold", ["off"]);
+        this.invoke(printer, "underline", ["off"]);
+        this.invoke(printer, "font", ["a"]);
+      },
+      0
     ));
   }
 
