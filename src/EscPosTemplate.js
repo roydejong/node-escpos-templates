@@ -65,7 +65,11 @@ export class EscPosTemplate {
             finalArgs.push(buffer);
           } else {
             if (isNaN(buffer)) {
-              throw new Error(`Unresolved variable: ${buffer}`)
+              if (typeof data[buffer] !== "undefined") {
+                finalArgs.push(data[buffer]);
+              } else {
+                throw new Error(`Unresolved variable: ${buffer}`)
+              }
             } else {
               finalArgs.push(parseInt(buffer));
             }
