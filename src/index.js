@@ -1,1 +1,1 @@
-export TemplateEngine from "./EscPosTemplate";
+export {EscPosTemplate} from "./EscPosTemplate.js";

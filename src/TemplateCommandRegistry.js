@@ -28,7 +28,7 @@ export default class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "cut",
       (printer, args) =>
-        printer.cut(false, 0),
+        printer.cut(false, 1),
       0
     ));
 

@@ -22,10 +22,10 @@ import {EscPosTemplate} from "node-escpos-templates";
 import {Printer, Network} from "escpos";
 
 const device = new Network("127.0.0.1", 1234);
-const printer = new escpos.Printer(device);
+const printer = new Printer(device);
 
-const template = new EscPosTemplate("<template text>");
-const myVars = {varKey: "varValue"};
+const template = new EscPosTemplate(`print \"Hello {{theName}}!"; feed 2; cut;`);
+const myVars = {theName: "Bob"};
 
 device.open((err) => {
   // Directly drive printer instructions from the template, with optional variables
@@ -79,5 +79,5 @@ These are the commands that are currently implemented for use in the templates:
 | `print [text]`   | Prints one line of `text`                |
 | `feed [n]`       | Feed `n` amount of lines.                |
 | `beep [n] [t]`   | Beep `n` times for `t` × 100 ms duration |
-| `cut`            | Perform a full cut without feeding       |
+| `cut`            | Feeds one line then performs a full cut  |
 | `cashdraw [p]`   | Pulses the cash drawer kick on pin `p`   | 
