@@ -74,8 +74,10 @@ template.print(printer, {name: "Bob"});
 
 These are the commands that are currently implemented for use in the templates:
 
-| Syntax                | Details                                                                                                          |
-|-----------------------|------------------------------------------------------------------------------------------------------------------|
-| `print <string:text>` | Prints one line of text                                                                                          |
-| `feed <int:n>` | Feed `n` amount of lines.                                                                                        |
-| `beep <int:n> <int:t>` | Printer buzzer (beep), where `n` is the amount of buzzes, and `t` is the duration in (`t * 100`) milliseconds.   |
+| Syntax           | Details                                  |
+|------------------|------------------------------------------|
+| `print [text]`   | Prints one line of `text`                |
+| `feed [n]`       | Feed `n` amount of lines.                |
+| `beep [n] [t]`   | Beep `n` times for `t` × 100 ms duration |
+| `cut`            | Perform a full cut without feeding       |
+| `cashdraw [p]`   | Pulses the cash drawer kick on pin `p`   | 

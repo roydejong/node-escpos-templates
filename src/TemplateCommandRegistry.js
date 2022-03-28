@@ -14,15 +14,29 @@ export default class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "feed",
       (printer, args) =>
-        printer.text(parseInt(args[0])),
+        printer.feed(parseInt(args[0])),
       1
     ));
 
     this.add(new TemplateCommand(
       "beep",
       (printer, args) =>
-        printer.beep(parseInt(args[1]), parseInt(args[2])),
+        printer.beep(parseInt(args[0]), parseInt(args[1])),
       2
+    ));
+
+    this.add(new TemplateCommand(
+      "cut",
+      (printer, args) =>
+        printer.cut(false, 0),
+      0
+    ));
+
+    this.add(new TemplateCommand(
+      "cashdraw",
+      (printer, args) =>
+        printer.cashdraw(parseInt(args[0])),
+      1
     ));
   }
 

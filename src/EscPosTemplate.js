@@ -64,8 +64,11 @@ export class EscPosTemplate {
           if (wasStringLiteral) {
             finalArgs.push(buffer);
           } else {
-            // TODO Resolve variables and non-string literals
-            throw new Error(`Unresolved variable or numeric type: ${buffer}`)
+            if (isNaN(buffer)) {
+              throw new Error(`Unresolved variable: ${buffer}`)
+            } else {
+              finalArgs.push(parseInt(buffer));
+            }
           }
         }
 

@@ -49,5 +49,11 @@ describe('EscPosTemplate', () => {
         EscPosTemplate.interpretLine('print "var one" "var two";', mockPrinter);
       },/Invalid amount of arguments for print: got 2, expected 1/);
     });
+
+    it('should execute chained commands', () => {
+      mockPrinter.reset();
+      EscPosTemplate.interpretLine("print \"test\"; beep 1 10; feed 3; cut; cashdraw 1", mockPrinter);
+      assert.deepEqual(mockPrinter.commands, ["text:test", "beep:1:10", "feed:3", "cut:false:0", "cashdraw:1"]);
+    });
   });
 });
