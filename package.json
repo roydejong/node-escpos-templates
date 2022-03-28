@@ -1,6 +1,6 @@
 {
   "name": "escpos-templates",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Generic template engine for node-escpos receipts",
   "type": "module",
   "main": "src/index.js",
@@ -8,7 +8,7 @@
     "test": "mocha",
     "testrun": "node src/testrun.js"
   },
-  "author": "",
+  "author": "Roy de Jong <roy@softwarepunt.nl>",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^9.2.2"
