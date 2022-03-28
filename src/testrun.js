@@ -4,7 +4,7 @@ import {EscPosTemplate} from "./EscPosTemplate.js";
 const device = new Network("127.0.0.1", 1234);
 const printer = new Printer(device);
 
-const template = new EscPosTemplate(`print theName; feed 2; cut;`);
+const template = new EscPosTemplate(`print \"Hello {{theName}} or with spaces {{ theName }}!"; feed 2; cut;`);
 const myVars = {theName: "Bob"};
 
 device.open((err) => {

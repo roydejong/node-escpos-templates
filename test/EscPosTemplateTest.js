@@ -53,7 +53,19 @@ describe('EscPosTemplate', () => {
     it('should execute chained commands', () => {
       mockPrinter.reset();
       EscPosTemplate.interpretLine("print \"test\"; beep 1 10; feed 3; cut; cashdraw 1", mockPrinter);
-      assert.deepEqual(mockPrinter.commands, ["text:test", "beep:1:10", "feed:3", "cut:false:0", "cashdraw:1"]);
+      assert.deepEqual(mockPrinter.commands, ["text:test", "beep:1:10", "feed:3", "cut:false:1", "cashdraw:1"]);
+    });
+
+    it('should execute commands with variables', () => {
+      mockPrinter.reset();
+      EscPosTemplate.interpretLine("print varName", mockPrinter, {varName: "testval"});
+      assert.deepEqual(mockPrinter.commands, ["text:testval"]);
+    });
+
+    it('should execute commands with variables in string literals', () => {
+      mockPrinter.reset();
+      EscPosTemplate.interpretLine("print \"Hello {{varName}}-{{ varName }}!\"", mockPrinter, {varName: "Bob"});
+      assert.deepEqual(mockPrinter.commands, ["text:Hello Bob-Bob!"]);
     });
   });
 });

@@ -62,10 +62,10 @@ export class EscPosTemplate {
           readingArgs = true;
         } else if (readingArgs) {
           if (wasStringLiteral) {
-            finalArgs.push(buffer);
+            finalArgs.push(this.replaceVariables(buffer, data));
           } else {
             if (isNaN(buffer)) {
-              if (typeof data[buffer] !== "undefined") {
+              if (data && typeof data[buffer] !== "undefined") {
                 finalArgs.push(data[buffer]);
               } else {
                 throw new Error(`Unresolved variable: ${buffer}`)
@@ -125,5 +125,14 @@ export class EscPosTemplate {
 
   static handleInterpretedLine(printer, opcode, args) {
     TemplateCommandRegistry.invoke(printer, opcode, args);
+  }
+
+  static replaceVariables(templateText, variableData) {
+    if (variableData) {
+      for (const key in variableData) {
+        templateText = templateText.replace(new RegExp('\\{\\{\\s?' + key + '\\s?\\}\\}', 'g'), variableData[key]);
+      }
+    }
+    return templateText;
   }
 }
