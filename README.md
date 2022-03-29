@@ -84,7 +84,7 @@ To print an image, you'll need to prepare an `escpos.Image` instance in advance 
 import {Image} from "escpos";
 
 Image.load("hippopotamus.png", function (hippoImg) {
-  const template = new EscPosTemplate("print hippoImg; cut");
+  const template = new EscPosTemplate("init; align center; image hippoImg; feed 5; cut");
 
   device.open((err) => {
     template.print(printer, { hippoImg });
@@ -92,7 +92,6 @@ Image.load("hippopotamus.png", function (hippoImg) {
   });
 });
 ```
-
 
 
 #### Barcodes

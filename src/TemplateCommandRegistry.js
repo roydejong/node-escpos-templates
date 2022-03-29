@@ -1,6 +1,7 @@
 import TemplateCommand from "./TemplateCommand.js";
 import {ArgValidation} from "./ArgValidation.js";
 import {EscPosTemplate} from "./EscPosTemplate.js";
+import {Image} from "escpos";
 
 export default class TemplateCommandRegistry {
   static init() {
@@ -15,8 +16,15 @@ export default class TemplateCommandRegistry {
 
     this.add(new TemplateCommand(
       "print",
-      (printer, args) =>
-        printer.text(args[0]),
+      (printer, args) => {
+        const arg = args[0];
+
+        if (typeof arg === "object" && arg instanceof Image) {
+          this.invoke(printer, "image", [arg]);
+        } else {
+          printer.text(arg.toString());
+        }
+      },
       ArgValidation.Exactly(1)
     ));
 
@@ -41,7 +49,7 @@ export default class TemplateCommandRegistry {
       "cut",
       (printer, args) => {
         const feedAmount = parseInt(args[0]) || 5;
-        printer.cut(true, feedAmount)
+        printer.cut(false, feedAmount)
       },
       ArgValidation.AtMost(1)
     ));
