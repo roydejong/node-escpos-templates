@@ -75,13 +75,33 @@ template.print(printer, {name: "Bob"});
 Most functions expect integers or string values, but some special functions like images and tables may need special input (refer to the function list below for details).
 
 ### Printing special elements
+
+#### Images
+To print an image, you'll need to prepare an `escpos.Image` instance in advance and pass it as a variable:
+
+*Code and template text*:
+```javascript
+import {Image} from "escpos";
+
+Image.load("hippopotamus.png", function (hippoImg) {
+  const template = new EscPosTemplate("print hippoImg; cut");
+
+  device.open((err) => {
+    template.print(printer, { hippoImg });
+    printer.close();
+  });
+});
+```
+
+
+
 #### Barcodes
 Supported barcodes (depending on printer model) are `UPC_A`, `UPC_E`, `EAN13`, `EAN8`, `CODE39`, `ITF`, `NW7`, `CODE93`, and `CODE128`.
 
 *Template text*:
 ```
 # Print EAN-13 barcode
-barcode "EAN13" "ABCDEF123456" 10 20
+barcode "EAN13" "ABCDEF123456" 2 50
 ```
 
 The arguments for the `barcode` function are: type, code, width (optional, range 2 - 6), height (optional, range 1-255), text position (optional, defaults to "below") and barcode font ("A" or "B").
@@ -120,8 +140,9 @@ Arguments are listed in `[brackets]`, with optional arguments denoted with a `?`
 
 ### Special elements
 
-| Syntax                                       | Details                                                                                                                  |
-|----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Syntax                                       | Details                                                                                                                      |
+|----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `image [image] [density?]`                   | Prints a rasterized `[image]` (`escpos.Image` instance)                                                                      | 
 | `barcode [type] [code] [w?] [h?] [tp?] [f?]` | Prints `[code]` of `[type]` with height `[h]` (?), width `[w]` (?) and text position `[tp]` (`below`?) and font `[f]` (`a`?) |
 
 ## Additional information

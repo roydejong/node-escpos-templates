@@ -165,6 +165,17 @@ export default class TemplateCommandRegistry {
     ));
 
     this.add(new TemplateCommand(
+      "image",
+      async (printer, args) => {
+        const image = args[0];
+        const density = args[1]?.toString();
+
+        await printer.image(image, density);
+      },
+      ArgValidation.AtLeast(1)
+    ));
+
+    this.add(new TemplateCommand(
       "barcode",
       (printer, args) => {
         const type = args[0].toString().toUpperCase().replaceAll("-", "_");
