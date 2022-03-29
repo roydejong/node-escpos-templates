@@ -1,4 +1,5 @@
 import TemplateCommand from "./TemplateCommand.js";
+import {ArgValidation} from "./ArgValidation.js";
 
 export default class TemplateCommandRegistry {
   static init() {
@@ -8,42 +9,47 @@ export default class TemplateCommandRegistry {
       "init",
       (printer, args) =>
         printer.text("\x1b\x40"),
-      0
+      ArgValidation.Exactly(0)
     ));
 
     this.add(new TemplateCommand(
       "print",
       (printer, args) =>
         printer.text(args[0]),
-      1
+      ArgValidation.Exactly(1)
     ));
 
     this.add(new TemplateCommand(
       "feed",
       (printer, args) =>
-        printer.feed(parseInt(args[0])),
-      1
+        printer.feed(parseInt(args[0]) || 1),
+      ArgValidation.AtMost(1)
     ));
 
     this.add(new TemplateCommand(
       "beep",
-      (printer, args) =>
-        printer.beep(parseInt(args[0]), parseInt(args[1])),
-      2
+      (printer, args) => {
+        const amount = parseInt(args[0]) || 1;
+        const length = parseInt(args[1]) || 1;
+        printer.beep(amount, length);
+      },
+      ArgValidation.AtMost(2)
     ));
 
     this.add(new TemplateCommand(
       "cut",
-      (printer, args) =>
-        printer.cut(true, 5),
-      0
+      (printer, args) => {
+        const feedAmount = parseInt(args[0]) || 5;
+        printer.cut(true, feedAmount)
+      },
+      ArgValidation.AtMost(1)
     ));
 
     this.add(new TemplateCommand(
       "cashdraw",
       (printer, args) =>
         printer.cashdraw(parseInt(args[0])),
-      1
+      ArgValidation.Exactly(1)
     ));
 
     this.add(new TemplateCommand(
@@ -69,7 +75,7 @@ export default class TemplateCommandRegistry {
             throw new Error($`Invalid align mode: ${args[0]}`);
         }
       },
-      1
+      ArgValidation.Exactly(1)
     ));
 
     this.add(new TemplateCommand(
@@ -90,7 +96,7 @@ export default class TemplateCommandRegistry {
             throw new Error($`Invalid bold mode: ${args[0]}`);
         }
       },
-      1
+      ArgValidation.Exactly(1)
     ));
 
     this.add(new TemplateCommand(
@@ -115,7 +121,7 @@ export default class TemplateCommandRegistry {
             throw new Error($`Invalid underline mode: ${args[0]}`);
         }
       },
-      1
+      ArgValidation.Exactly(1)
     ));
 
     this.add(new TemplateCommand(
@@ -132,7 +138,7 @@ export default class TemplateCommandRegistry {
             throw new Error($`Invalid font mode: ${args[0]}`);
         }
       },
-      1
+      ArgValidation.Exactly(1)
     ));
 
     this.add(new TemplateCommand(
@@ -142,7 +148,7 @@ export default class TemplateCommandRegistry {
         let h = parseInt(args[1]);
         printer.size(w, h);
       },
-      2
+      ArgValidation.Exactly(2)
     ));
 
     this.add(new TemplateCommand(
@@ -154,7 +160,7 @@ export default class TemplateCommandRegistry {
         this.invoke(printer, "font", ["a"]);
         this.invoke(printer, "fontsize", [1, 1]);
       },
-      0
+      ArgValidation.Exactly(0)
     ));
   }
 
@@ -168,8 +174,8 @@ export default class TemplateCommandRegistry {
     if (!command)
       throw new Error(`Command not implemented: ${opcode}`);
 
-    if (command.argCount !== null && args.length !== command.argCount)
-      throw new Error(`Invalid amount of arguments for ${opcode}: got ${args.length}, expected ${command.argCount}`);
+    if (!command.argValidation.validate(args))
+      throw new Error(command.argValidation.getErrorMessage(args));
 
     command.invoke(printer, args);
   }
