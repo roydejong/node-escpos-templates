@@ -5,8 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha",
-    "testrun": "node src/testrun.js"
+    "test": "mocha"
   },
   "author": "Roy de Jong <roy@softwarepunt.nl>",
   "license": "MIT",
