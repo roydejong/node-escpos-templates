@@ -65,7 +65,7 @@ describe('EscPosTemplate', () => {
     it('should throw for an invalid variable count', () => {
       assert.throws(() => {
         EscPosTemplate.interpretLine('print "var one" "var two";', mockPrinter);
-      },/Invalid amount of arguments for print: got 2, expected 1/);
+      },/Got 2 args, but expected at most 1/);
     });
 
     it('should execute chained commands', () => {
