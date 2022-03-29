@@ -93,7 +93,6 @@ Image.load("hippopotamus.png", function (hippoImg) {
 });
 ```
 
-
 #### Barcodes
 Supported barcodes (depending on printer model) are `UPC_A`, `UPC_E`, `EAN13`, `EAN8`, `CODE39`, `ITF`, `NW7`, `CODE93`, and `CODE128`.
 
@@ -107,6 +106,23 @@ The arguments for the `barcode` function are: type, code, width (optional, range
 
 Text position options are: `off` (no text), `above` (text above barcode), `below` (text below barcode), `both` (text above and below barcode).
 
+### Iterating through data
+When you pass an array as a variable, you can iterate through it using a `loop` statement. This can be useful for line items.
+
+*Template text:*
+```
+loop myArray
+  print item
+endloop 
+```
+
+*Code*:
+```javascript
+template.print(printer, {myArray: ["One", "Two", "Three"]});
+// Prints "One", "Two" and "Three" each on a seperate line
+```
+
+Begin iterating over an array variable with the `loop` statement. Each following statement, until `endloop` the statement, will be executed for each item in the array, with `item` as variable for each array element.
 
 ## Function list
 

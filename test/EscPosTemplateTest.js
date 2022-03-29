@@ -33,6 +33,14 @@ describe('EscPosTemplate', () => {
       template.print(mockPrinter);
       assert.deepEqual(mockPrinter.commands, [`align:ct`, `text:\x1b\x45\x01`, `text:\x1b\x2d\x02`]);
     });
+
+    it('should support iterations', () => {
+      let arr = ["a", "b", "c", "d", "e"];
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`loop arr; print item; endloop;`);
+      template.print(mockPrinter, { arr });
+      assert.deepEqual(mockPrinter.commands, [`text:a`, `text:b`, `text:c`, `text:d`, `text:e`]);
+    });
   });
 
   describe('#interpetLine()', () => {
