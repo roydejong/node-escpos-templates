@@ -5,6 +5,13 @@ export default class TemplateCommandRegistry {
     this.commands = { };
 
     this.add(new TemplateCommand(
+      "init",
+      (printer, args) =>
+        printer.text("\x1b\x40"),
+      0
+    ));
+
+    this.add(new TemplateCommand(
       "print",
       (printer, args) =>
         printer.text(args[0]),

@@ -42,52 +42,52 @@ Each print instruction must be placed on separate line, and/or seperated with a 
 
 ### "Hello world" example
 
-A very simple template that prints some text, feeds two lines, then cuts the paper:
+A very simple template that prints some text, beeps once, then cuts the paper:
 
 ```
 print "Hello world!";
-feed 2;
-beep;
+beep 1 1;
 cut;
 ```
 
-### "Hello world" with variables example
+### Working with variables 
 
 When calling `print()` you can provide an object of template variables.
 
 You can refer to these anywhere in a template string by using the `{{variableName}}` syntax. You can also refer to
-variables directly as arguments to print commands.
+variables directly as arguments to template functions.
 
 ```
-# Print "Hello Bob!"
-print "Hello {{name}}!";
-
 # Print "Bob" 
 print name;
+
+# Print "Hello Bob!"
+print "Hello {{name}}!";
 ```
 
 ```javascript
 template.print(printer, {name: "Bob"});
 ```
 
-### Advanced example with formatting and loop
+Most functions expect integers or string values, but some special functions like images and tables may need special input (refer to the function list below for details).
 
-## Supported commands
+## Function list
 
-These are the commands that are currently implemented for use in the templates:
+These are the functions that are currently implemented for use in the templates:
 
-| Syntax          | Details                                       |
-|-----------------|-----------------------------------------------|
-| `print [text]`  | Prints one line of `text`                     |
-| `feed [n]`      | Feed `n` amount of lines.                     |
-| `beep [n] [t]`  | Beep `n` times for `t` × 100 ms duration      |
-| `cut`           | Feeds 5 lines then performs a full cut        |
-| `cashdraw [p]`  | Pulses the cash drawer kick on pin `p`        | 
-| `align [a]`     | Align text `left`, `center` or `right`        | 
-| `bold [t]`      | Set bold / emphasis to `off` or `on`          | 
-| `underline [t]` | Set underline mode to `off`, `on` or `double` |
-| `font [f]`      | Set font to `a`, `b`, or `c`                  | 
-| `reset`         | Resets formatting options to their defaults   | 
+| Syntax          | Details                                         |
+|-----------------|-------------------------------------------------|
+| `init`          | Reset (initialize) printer                      |
+| `print [text]`  | Prints one line of `text`                       |
+| `feed [n]`      | Feed `n` amount of lines.                       |
+| `beep [n] [t]`  | Beep `n` times for `t` × 100 ms duration        |
+| `cut`           | Feeds 5 lines then performs a full cut          |
+| `cashdraw [p]`  | Pulses the cash drawer kick on pin `p`          | 
+| `align [a]`     | Align text `left`, `center` or `right`          | 
+| `bold [t]`      | Set bold / emphasis to `off` or `on`            | 
+| `underline [t]` | Set underline mode to `off`, `on` or `double`   |
+| `font [f]`      | Set font to `a`, `b`, or `c`                    | 
+| `reset`         | Resets formatting options to their defaults     |
 
 ## Additional information
 
