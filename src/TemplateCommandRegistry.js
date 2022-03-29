@@ -1,5 +1,6 @@
 import TemplateCommand from "./TemplateCommand.js";
 import {ArgValidation} from "./ArgValidation.js";
+import {EscPosTemplate} from "./EscPosTemplate.js";
 
 export default class TemplateCommandRegistry {
   static init() {
@@ -48,8 +49,8 @@ export default class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "cashdraw",
       (printer, args) =>
-        printer.cashdraw(parseInt(args[0])),
-      ArgValidation.Exactly(1)
+        printer.cashdraw(parseInt(args[0]) || 2),
+      ArgValidation.AtMost(1)
     ));
 
     this.add(new TemplateCommand(
@@ -161,6 +162,34 @@ export default class TemplateCommandRegistry {
         this.invoke(printer, "fontsize", [1, 1]);
       },
       ArgValidation.Exactly(0)
+    ));
+
+    this.add(new TemplateCommand(
+      "barcode",
+      (printer, args) => {
+        const type = args[0].toString().toUpperCase().replaceAll("-", "_");
+        const codeValue = args[1].toString();
+
+        const w = parseInt(args[2]) || null;
+        const h = parseInt(args[3]) || null;
+
+        let textPos = args[4]?.toString().toUpperCase() || "BLW";
+        if (textPos === "BELOW") textPos = "BLW";
+        if (textPos === "ABOVE") textPos = "ABV";
+        if (textPos === "BOTH") textPos = "BTH";
+
+        let barcodeFont = args[5];
+        if (barcodeFont !== "A" && barcodeFont !== "B") barcodeFont = "A";
+
+        printer.barcode(codeValue, type, {
+          width: w,
+          height: h,
+          position: textPos,
+          font: barcodeFont,
+          includeParity: EscPosTemplate.enableBarcodeParityBit
+        });
+      },
+      ArgValidation.AtLeast(2)
     ));
   }
 

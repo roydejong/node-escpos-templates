@@ -143,6 +143,10 @@ export class EscPosTemplate {
     }
     return templateText;
   }
+
+  static setEnableBarcodeParityBit(toggle) {
+    this.enableBarcodeParityBit = !!toggle;
+  }
 }
 
 EscPosTemplate.defaultVars = {
@@ -158,3 +162,5 @@ EscPosTemplate.defaultVars = {
   b: "b",
   c: "c"
 };
+
+EscPosTemplate.setEnableBarcodeParityBit(true);
