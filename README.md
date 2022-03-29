@@ -81,7 +81,7 @@ These are the commands that are currently implemented for use in the templates:
 | `print [text]`  | Prints one line of `text`                     |
 | `feed [n]`      | Feed `n` amount of lines.                     |
 | `beep [n] [t]`  | Beep `n` times for `t` × 100 ms duration      |
-| `cut`           | Feeds one line then performs a full cut       |
+| `cut`           | Feeds 5 lines then performs a full cut        |
 | `cashdraw [p]`  | Pulses the cash drawer kick on pin `p`        | 
 | `align [a]`     | Align text `left`, `center` or `right`        | 
 | `bold [t]`      | Set bold / emphasis to `off` or `on`          | 
