@@ -41,6 +41,14 @@ describe('EscPosTemplate', () => {
       template.print(mockPrinter, { arr });
       assert.deepEqual(mockPrinter.commands, [`text:a`, `text:b`, `text:c`, `text:d`, `text:e`]);
     });
+
+    it('should support iterations with key-access', () => {
+      let arr = [{ txt: "a" }, { txt: "b" }, { txt: "c" }, { txt: "d" }, { txt: "e" }];
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`loop arr; print item.txt; endloop;`);
+      template.print(mockPrinter, { arr });
+      assert.deepEqual(mockPrinter.commands, [`text:a`, `text:b`, `text:c`, `text:d`, `text:e`]);
+    });
   });
 
   describe('#interpetLine()', () => {
@@ -92,6 +100,13 @@ describe('EscPosTemplate', () => {
       mockPrinter.reset();
       EscPosTemplate.interpretLine("print \"Hello {{varName}}-{{ varName }}!\"", mockPrinter, {varName: "Bob"});
       assert.deepEqual(mockPrinter.commands, ["text:Hello Bob-Bob!"]);
+    });
+
+    it('should execute commands with variables with key access in string literals', () => {
+      mockPrinter.reset();
+      EscPosTemplate.interpretLine("print \"Hello {{varName.first}} {{ varName.last }}!\"", mockPrinter,
+        {varName: {first: "Bob", last: "Smith"}});
+      assert.deepEqual(mockPrinter.commands, ["text:Hello Bob Smith!"]);
     });
 
     it('should correctly interpret escape sequences in string literals', () => {

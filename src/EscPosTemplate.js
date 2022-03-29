@@ -93,14 +93,11 @@ export class EscPosTemplate {
         if (wasStringLiteral) {
           finalArgs.push(this.replaceVariables(buffer, data));
         } else {
-          if (isNaN(buffer)) {
-            if (data && typeof data[buffer] !== "undefined") {
-              finalArgs.push(data[buffer]);
-            } else {
-              throw new Error(`Unresolved variable: ${buffer}`)
-            }
+          const resolvedArg = this.resolveArg(data, buffer);
+          if (resolvedArg) {
+            finalArgs.push(resolvedArg);
           } else {
-            finalArgs.push(parseInt(buffer));
+            throw new Error(`Unresolved variable: ${buffer}`)
           }
         }
       }
@@ -171,7 +168,6 @@ export class EscPosTemplate {
       if (!state.iteratorTarget)
         throw new Error("unexpected endloop: not iterating");
 
-      console.log('begin iteration');
       for (let i = 0; i < state.iteratorTarget.length; i++) {
         let subState = {};
         let mergedData = Object.assign({}, data);
@@ -196,16 +192,71 @@ export class EscPosTemplate {
   }
 
   static replaceVariables(templateText, variableData) {
-    if (variableData) {
-      for (const key in variableData) {
-        templateText = templateText.replace(new RegExp('\\{\\{\\s?' + key + '\\s?\\}\\}', 'g'), variableData[key]);
+    if (!templateText || !variableData)
+      return templateText;
+
+    // Detect vars
+    let replaceList = { };
+    templateText.match(new RegExp('\\{\\{\\s?(.*?)\\s?\\}\\}', 'g')).forEach((match) => {
+      // Do something with each element
+      let innerText = match.substring(2, match.length - 2).trim();
+      if (typeof replaceList[innerText] === "undefined") {
+        const resolvedArg = this.resolveArg(variableData, innerText);
+        if (resolvedArg) {
+          replaceList[innerText] = resolvedArg;
+        } else {
+          console.warn(`Unresolved variable in template expression: ${match}`);
+        }
       }
-    }
+    });
+
+    // Replace vars
+    Object.entries(replaceList).forEach(([key, value]) => {
+      templateText = templateText.replace(new RegExp('\\{\\{\\s?' + key + '\\s?\\}\\}', 'g'), value);
+    });
     return templateText;
   }
 
   static setEnableBarcodeParityBit(toggle) {
     this.enableBarcodeParityBit = !!toggle;
+  }
+
+  static resolveArg(data, inputText) {
+    if (isNaN(inputText)) {
+      if (data && typeof data[inputText] !== "undefined") {
+        // Directly resolve to a variable
+        return data[inputText];
+      } else {
+        // Check if accessor was used to access a key on a variable
+        let accessorResolved = false;
+        let accessedVariable = null;
+
+        if (inputText.indexOf('.') >= 0) {
+          let accessorParts = inputText.split('.');
+          accessedVariable = data;
+
+          for (let i = 0; i < accessorParts.length; i++) {
+            let accessorPart = accessorParts[i];
+            if (accessedVariable && typeof accessedVariable[accessorPart] !== "undefined") {
+              accessedVariable = accessedVariable[accessorPart];
+              if (i === (accessorParts.length - 1)) {
+                accessorResolved = true;
+              }
+            } else {
+              break;
+            }
+          }
+        }
+
+        if (accessorResolved) {
+          return accessedVariable;
+        } else {
+          return null;
+        }
+      }
+    } else {
+      return parseInt(inputText);
+    }
   }
 }
 

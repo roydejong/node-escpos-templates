@@ -65,11 +65,14 @@ print name;
 
 # Print "Hello Bob!"
 print "Hello {{name}}!";
+
+# Print "Hello Bob Smith!"
+print "Hello {{person.firstName}} {{person.lastName}}!";
 ```
 
 *Code*:
 ```javascript
-template.print(printer, {name: "Bob"});
+template.print(printer, {name: "Bob", person: {firstName: "Bob", lastName: "Smith"}});
 ```
 
 Most functions expect integers or string values, but some special functions like images and tables may need special input (refer to the function list below for details).
@@ -112,13 +115,15 @@ When you pass an array as a variable, you can iterate through it using a `loop` 
 *Template text:*
 ```
 loop myArray
-  print item
+  # In the iteration context, each array item is available as "item"
+  # You can access keys on variables as well for more flexibility
+  print item.label
 endloop 
 ```
 
 *Code*:
 ```javascript
-template.print(printer, {myArray: ["One", "Two", "Three"]});
+template.print(printer, {myArray: [{label: "One"}, {label: "Two"}, {label: "Three"}]});
 // Prints "One", "Two" and "Three" each on a seperate line
 ```
 
