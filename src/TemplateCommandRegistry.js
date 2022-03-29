@@ -35,7 +35,7 @@ export default class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "cut",
       (printer, args) =>
-        printer.cut(false, 5),
+        printer.cut(true, 5),
       0
     ));
 
@@ -136,12 +136,23 @@ export default class TemplateCommandRegistry {
     ));
 
     this.add(new TemplateCommand(
+      "fontsize",
+      (printer, args) => {
+        let w = parseInt(args[0]);
+        let h = parseInt(args[1]);
+        printer.size(w, h);
+      },
+      2
+    ));
+
+    this.add(new TemplateCommand(
       "reset",
       (printer, args) => {
         this.invoke(printer, "align", ["left"]);
         this.invoke(printer, "bold", ["off"]);
         this.invoke(printer, "underline", ["off"]);
         this.invoke(printer, "font", ["a"]);
+        this.invoke(printer, "fontsize", [1, 1]);
       },
       0
     ));

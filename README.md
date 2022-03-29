@@ -75,19 +75,20 @@ Most functions expect integers or string values, but some special functions like
 
 These are the functions that are currently implemented for use in the templates:
 
-| Syntax          | Details                                         |
-|-----------------|-------------------------------------------------|
-| `init`          | Reset (initialize) printer                      |
-| `print [text]`  | Prints one line of `text`                       |
-| `feed [n]`      | Feed `n` amount of lines.                       |
-| `beep [n] [t]`  | Beep `n` times for `t` × 100 ms duration        |
-| `cut`           | Feeds 5 lines then performs a full cut          |
-| `cashdraw [p]`  | Pulses the cash drawer kick on pin `p`          | 
-| `align [a]`     | Align text `left`, `center` or `right`          | 
-| `bold [t]`      | Set bold / emphasis to `off` or `on`            | 
-| `underline [t]` | Set underline mode to `off`, `on` or `double`   |
-| `font [f]`      | Set font to `a`, `b`, or `c`                    | 
-| `reset`         | Resets formatting options to their defaults     |
+| Syntax             | Details                                             |
+|--------------------|-----------------------------------------------------|
+| `init`             | Reset (initialize) printer                          |
+| `print [text]`     | Prints one line of `text`                           |
+| `feed [n]`         | Feed `n` amount of lines.                           |
+| `beep [n] [t]`     | Beep `n` times for `t` × 100 ms duration            |
+| `cut`              | Feeds 5 lines then performs a full cut              |
+| `cashdraw [p]`     | Pulses the cash drawer kick on pin `p`              | 
+| `align [a]`        | Align text `left`, `center` or `right`              | 
+| `bold [t]`         | Set bold / emphasis to `off` or `on`                | 
+| `underline [t]`    | Set underline mode to `off`, `on` or `double`       |
+| `font [f]`         | Set font to `a`, `b`, or `c`                        | 
+| `fontsize [h] [w]` | Sets character height × `h` and width × `w` (1-8)   | 
+| `reset`            | Resets formatting options to their defaults         |
 
 ## Additional information
 
