@@ -175,11 +175,14 @@ class EscPosTemplate {
       // Active loop
       state.iteratorInstructions.push(instruction);
     } else {
-      this.handleInterpretedLine(printer, finalOpcode, finalArgs);
+      this.invokeInstruction(printer, finalOpcode, finalArgs);
     }
   }
 
-  static handleInterpretedLine(printer, opcode, args) {
+  static invokeInstruction(printer, opcode, args) {
+    if (!opcode)
+      return;
+
     TemplateCommandRegistry.enableBarcodeParityBit = this.getEnableBarcodeParityBit();
     TemplateCommandRegistry.invoke(printer, opcode, args);
   }
