@@ -42,6 +42,16 @@ describe('EscPosTemplate', () => {
       assert.deepEqual(mockPrinter.commands, [`text:a`, `text:b`, `text:c`, `text:d`, `text:e`]);
     });
 
+    it('should support multi line iterations', () => {
+      let arr = ["a", "b", "c", "d", "e"];
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`loop arr
+  print item
+endloop`);
+      template.print(mockPrinter, { arr });
+      assert.deepEqual(mockPrinter.commands, [`text:a`, `text:b`, `text:c`, `text:d`, `text:e`]);
+    });
+
     it('should support iterations with key-access', () => {
       let arr = [{ txt: "a" }, { txt: "b" }, { txt: "c" }, { txt: "d" }, { txt: "e" }];
       mockPrinter.reset();
@@ -51,7 +61,7 @@ describe('EscPosTemplate', () => {
     });
   });
 
-  describe('#interpetLine()', () => {
+  describe('#interpretLine()', () => {
     it('should do nothing for an empty line', () => {
       EscPosTemplate.interpretLine("", mockPrinter);
     });

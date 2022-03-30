@@ -23,6 +23,7 @@ export class EscPosTemplate {
 
     let lineNumber = 0;
     let didError = false;
+    let state = { };
 
     templateLines.forEach(line => {
       lineNumber++;
@@ -31,7 +32,6 @@ export class EscPosTemplate {
         return;
 
       try {
-        let state = { };
         EscPosTemplate.interpretLine(line, printer, data, state);
       } catch (err) {
         didError = true;
