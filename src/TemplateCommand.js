@@ -1,6 +1,6 @@
-import {ArgValidation} from "./ArgValidation.js";
+const ArgValidation = require('./ArgValidation');
 
-export default class TemplateCommand {
+class TemplateCommand {
   constructor(opcode, handler, argValidation = null) {
     this.opcode = opcode;
     this.handler = handler;
@@ -14,3 +14,5 @@ export default class TemplateCommand {
     this.handler(printer, args);
   }
 }
+
+module.exports = TemplateCommand;

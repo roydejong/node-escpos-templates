@@ -1,18 +1,12 @@
-import * as assert from "assert";
-import MockPrinter from "./mock/MockPrinter.js";
-import {EscPosTemplate} from "../src/EscPosTemplate.js";
+const EscPosTemplate = require('../src/EscPosTemplate');
 
-const mockPrinter = new MockPrinter();
+const MockPrinter = require('./mock/MockPrinter');
+let mockPrinter = new MockPrinter();
+
+const assert = require('assert');
 
 describe('EscPosTemplate', () => {
   describe('#print()', () => {
-    it('should throw on invalid printer argument', () => {
-      assert.throws(() => {
-        const template = new EscPosTemplate("");
-        template.print({ "notAPrinter": true });
-      }, Error);
-    });
-
     it('should throw on invalid data argument', () => {
       assert.throws(() => {
         const template = new EscPosTemplate("");
@@ -63,65 +57,65 @@ endloop`);
 
   describe('#interpretLine()', () => {
     it('should do nothing for an empty line', () => {
-      EscPosTemplate.interpretLine("", mockPrinter);
+      EscPosTemplate.interpretLine("", mockPrinter, { }, { });
     });
 
     it('should do nothing for a commented line', () => {
-      EscPosTemplate.interpretLine("# this is a comment", mockPrinter);
+      EscPosTemplate.interpretLine("# this is a comment", mockPrinter, { }, { });
     });
 
     it('should throw for a badly formatted line', () => {
       assert.throws(() => {
-        EscPosTemplate.interpretLine('"not valid"', mockPrinter);
+        EscPosTemplate.interpretLine('"not valid"', mockPrinter, { }, { });
       }, /Unexpected start of string literal/);
     });
 
     it('should throw for an invalid command', () => {
       assert.throws(() => {
-        EscPosTemplate.interpretLine('invalid_command;', mockPrinter);
+        EscPosTemplate.interpretLine('invalid_command;', mockPrinter, { }, { });
       },/Command not implemented: invalid_command/);
     });
 
     it('should throw for an invalid variable reference', () => {
       assert.throws(() => {
-        EscPosTemplate.interpretLine('print undefined_var', mockPrinter);
+        EscPosTemplate.interpretLine('print undefined_var', mockPrinter, { }, { });
       },/Unresolved variable/);
     });
 
     it('should throw for an invalid variable count', () => {
       assert.throws(() => {
-        EscPosTemplate.interpretLine('print "var one" "var two";', mockPrinter);
+        EscPosTemplate.interpretLine('print "var one" "var two";', mockPrinter, { }, { });
       },/Got 2 args, but expected at most 1/);
     });
 
     it('should execute chained commands', () => {
       mockPrinter.reset();
-      EscPosTemplate.interpretLine("print \"test\"; beep 1 10; feed 3; cut; cashdraw 1", mockPrinter);
+      EscPosTemplate.interpretLine("print \"test\"; beep 1 10; feed 3; cut; cashdraw 1", mockPrinter, { }, { });
       assert.deepEqual(mockPrinter.commands, ["text:test", "beep:1:10", "feed:3", "cut:false:5", "cashdraw:1"]);
     });
 
     it('should execute commands with variables', () => {
       mockPrinter.reset();
-      EscPosTemplate.interpretLine("print varName", mockPrinter, {varName: "testval"});
+      EscPosTemplate.interpretLine("print varName", mockPrinter, {varName: "testval"}, { });
       assert.deepEqual(mockPrinter.commands, ["text:testval"]);
     });
 
     it('should execute commands with variables in string literals', () => {
       mockPrinter.reset();
-      EscPosTemplate.interpretLine("print \"Hello {{varName}}-{{ varName }}!\"", mockPrinter, {varName: "Bob"});
+      EscPosTemplate.interpretLine("print \"Hello {{varName}}-{{ varName }}!\"", mockPrinter, {varName: "Bob"}, { });
       assert.deepEqual(mockPrinter.commands, ["text:Hello Bob-Bob!"]);
     });
 
     it('should execute commands with variables with key access in string literals', () => {
       mockPrinter.reset();
       EscPosTemplate.interpretLine("print \"Hello {{varName.first}} {{ varName.last }}!\"", mockPrinter,
-        {varName: {first: "Bob", last: "Smith"}});
+        {varName: {first: "Bob", last: "Smith"}}, { });
       assert.deepEqual(mockPrinter.commands, ["text:Hello Bob Smith!"]);
     });
 
     it('should correctly interpret escape sequences in string literals', () => {
       mockPrinter.reset();
-      EscPosTemplate.interpretLine(`print "This is an \\"escape\\" sequence test!"`, mockPrinter);
+      EscPosTemplate.interpretLine(`print "This is an \\"escape\\" sequence test!"`, mockPrinter, { }, { });
       assert.deepEqual(mockPrinter.commands, [`text:This is an "escape" sequence test!`]);
     });
   });

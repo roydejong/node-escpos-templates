@@ -1,4 +1,4 @@
-export default class MockPrinter {
+class MockPrinter {
   constructor() {
     this.reset();
   }
@@ -14,3 +14,5 @@ export default class MockPrinter {
   cashdraw(arg0) { this.commands.push(`cashdraw:${arg0}`) }
   align(arg0) { this.commands.push(`align:${arg0}`) }
 }
+
+module.exports = MockPrinter;

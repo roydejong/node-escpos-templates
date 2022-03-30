@@ -1,4 +1,4 @@
-export class ArgValidation {
+class ArgValidation {
   constructor(type, value) {
     this.type = type;
     this.value = parseInt(value);
@@ -52,3 +52,5 @@ export class ArgValidation {
 ArgValidation.TypeExactly = "exactly";
 ArgValidation.TypeAtLeast = "atleast";
 ArgValidation.TypeAtMost = "atmost";
+
+module.exports = ArgValidation;

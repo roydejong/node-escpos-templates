@@ -1,9 +1,7 @@
-import TemplateCommand from "./TemplateCommand.js";
-import {ArgValidation} from "./ArgValidation.js";
-import {EscPosTemplate} from "./EscPosTemplate.js";
-import {Image} from "escpos";
+const ArgValidation = require('./ArgValidation');
+const TemplateCommand = require('./TemplateCommand');
 
-export default class TemplateCommandRegistry {
+class TemplateCommandRegistry {
   static init() {
     this.commands = { };
 
@@ -230,3 +228,5 @@ export default class TemplateCommandRegistry {
 }
 
 TemplateCommandRegistry.init();
+
+module.exports = TemplateCommandRegistry;

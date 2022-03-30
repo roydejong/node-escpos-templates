@@ -1,1 +1,3 @@
-export {EscPosTemplate} from "./EscPosTemplate.js";
+const EscPosTemplate = require('EscPosTemplate');
+
+module.exports = EscPosTemplate;

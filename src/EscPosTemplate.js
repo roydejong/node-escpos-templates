@@ -1,16 +1,11 @@
-import {Printer} from "escpos";
-import MockPrinter from "../test/mock/MockPrinter.js";
-import TemplateCommandRegistry from "./TemplateCommandRegistry.js";
+const TemplateCommandRegistry = require('./TemplateCommandRegistry');
 
-export class EscPosTemplate {
+class EscPosTemplate {
   constructor(templateText) {
     this.templateText = templateText || "";
   }
 
   print(printer, data) {
-    if (!(printer instanceof Printer) && !(printer instanceof MockPrinter))
-      throw new Error("Invalid data argument: must provide escpos printer instance");
-
     if (data && typeof data !== "object")
       throw new Error("Invalid data argument: must be object or null");
 
@@ -47,9 +42,6 @@ export class EscPosTemplate {
       return;
 
     if (!state)
-      if (printer instanceof MockPrinter)
-        state = { };
-      else
         throw new Error("interpretLine() should not be called without a shared state object");
 
     const instructions = line.split(";");
@@ -197,7 +189,7 @@ export class EscPosTemplate {
 
     // Detect vars
     let replaceList = { };
-    templateText.match(new RegExp('\\{\\{\\s?(.*?)\\s?\\}\\}', 'g')).forEach((match) => {
+    templateText.match(new RegExp('\\{\\{\\s?(.*?)\\s?\\}\\}', 'g'))?.forEach((match) => {
       // Do something with each element
       let innerText = match.substring(2, match.length - 2).trim();
       if (typeof replaceList[innerText] === "undefined") {
@@ -275,3 +267,5 @@ EscPosTemplate.defaultVars = {
 };
 
 EscPosTemplate.setEnableBarcodeParityBit(true);
+
+module.exports = EscPosTemplate;
