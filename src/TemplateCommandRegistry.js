@@ -203,7 +203,7 @@ class TemplateCommandRegistry {
           height: h,
           position: textPos,
           font: barcodeFont,
-          includeParity: EscPosTemplate.enableBarcodeParityBit
+          includeParity: TemplateCommandRegistry.enableBarcodeParityBit
         });
       },
       ArgValidation.AtLeast(2)

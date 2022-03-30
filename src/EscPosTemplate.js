@@ -180,6 +180,7 @@ class EscPosTemplate {
   }
 
   static handleInterpretedLine(printer, opcode, args) {
+    TemplateCommandRegistry.enableBarcodeParityBit = this.getEnableBarcodeParityBit();
     TemplateCommandRegistry.invoke(printer, opcode, args);
   }
 
@@ -211,6 +212,10 @@ class EscPosTemplate {
 
   static setEnableBarcodeParityBit(toggle) {
     this.enableBarcodeParityBit = !!toggle;
+  }
+
+  static getEnableBarcodeParityBit() {
+    return this.enableBarcodeParityBit;
   }
 
   static resolveArg(data, inputText) {
