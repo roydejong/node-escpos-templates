@@ -80,8 +80,8 @@ class EscPosTemplate {
         readingOpcode = false;
         readingArgs = true;
 
-        if (state.iteratorTarget) {
-          // Active loop: stop interpreting, this line will not be executed in this scope
+        if (state.iteratorTarget || (state.ifBranch > 0 && !state.ifBranchValid)) {
+          // Active loop or dead if-branch: stop interpreting, this line will not be executed in this scope
           abortRead = true;
         }
       } else if (readingArgs) {
@@ -146,8 +146,8 @@ class EscPosTemplate {
     // -----------------------------------------------------------------------------------------------------------------
     // Logic breaks
 
-    if (finalOpcode !== "endif" && state.ifBranch > 0 && !state.ifBranchValid) {
-      // Active if-branch that is not truthy, and not an ending opcode;
+    if (finalOpcode !== "if" && finalOpcode !== "endif" && state.ifBranch > 0 && !state.ifBranchValid) {
+      // Active if-branch that is not truthy, and not an starting/ending opcode;
       //  → skip instruction entirely (will not ever run)
       return;
     }
@@ -163,20 +163,26 @@ class EscPosTemplate {
     // Control flow
 
     if (finalOpcode === "if") {
-      if (finalArgs.length !== 1)
+      let branchIsAlreadyDead = !!abortRead;
+
+      if (finalArgs.length !== 1 && !branchIsAlreadyDead)
         throw new Error("if: expected 1 arg");
 
-      if (!state.ifBranch)
+      if (typeof state.ifBranch === "undefined") {
         state.ifBranch = 0;
+        state.ifBranchValid = false;
+        state.ifBranchValidity = [];
+      }
 
       state.ifBranch++;
-      state.ifBranchValid = !!finalArgs[0];
+      state.ifBranchValid = !branchIsAlreadyDead && !!finalArgs[0];
+      state.ifBranchValidity[state.ifBranch] = state.ifBranchValid;
     } else if (finalOpcode === "endif") {
       if (!state.ifBranch)
         throw new Error("unexpected endif: not in if-branch");
 
       state.ifBranch--;
-      state.ifBranchValid = true;
+      state.ifBranchValid = state.ifBranchValidity[state.ifBranch];
     } else if (finalOpcode === "loop") {
       if (finalArgs.length !== 1)
         throw new Error("loop: expected 1 arg");

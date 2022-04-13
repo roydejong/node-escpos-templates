@@ -81,6 +81,9 @@ endloop`);
           print "level two";
           if logicValue3;
             print "level three";
+            if logicValue3:
+              print "level four";
+            endif;
           endif;
         endif;
       endif;
@@ -88,7 +91,8 @@ endloop`);
       template.print(mockPrinter, {
         logicValue1: true,
         logicValue2: "yeah",
-        logicValue3: 0
+        logicValue3: 0,
+        logicValue4: true
       });
       assert.deepEqual(mockPrinter.commands, [`text:level one`, `text:level two`]);
     });
