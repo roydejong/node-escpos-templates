@@ -1,5 +1,6 @@
 const ArgValidation = require('./ArgValidation');
 const TemplateCommand = require('./TemplateCommand');
+const {Image} = require("escpos");
 
 class TemplateCommandRegistry {
   static init() {
