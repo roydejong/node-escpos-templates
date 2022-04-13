@@ -72,6 +72,20 @@ class TemplateCommandRegistry {
     ));
 
     this.add(new TemplateCommand(
+      "invert",
+      (printer, args) => {
+        const arg = args[0];
+
+        if (arg && (arg !== "off" && arg !== "false")) {
+          printer.text("\x1d\x42\x01"); // Inverse mode ON
+        } else {
+          printer.text("\x1d\x42\x00"); // Inverse mode OFF
+        }
+      },
+      ArgValidation.Exactly(1)
+    ));
+
+    this.add(new TemplateCommand(
       "align",
       (printer, args) => {
         switch (args[0]) {
