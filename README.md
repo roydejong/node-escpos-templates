@@ -129,6 +129,30 @@ template.print(printer, {myArray: [{label: "One"}, {label: "Two"}, {label: "Thre
 
 Begin iterating over an array variable with the `loop` statement. Each following statement, until `endloop` the statement, will be executed for each item in the array, with `item` as variable for each array element.
 
+### If-statements
+The template syntax has limited support for if-statements. They allow you to make a set of instructions conditional on whether a variable is truthy or not.
+
+*Template text:*
+```
+if varOne
+
+  # If varOne is truthy, this instruction will execute...
+  print "One!"
+  
+  # You can also nest statements!
+  if varTwo
+    print "Also, two?"
+  endif
+  
+endif
+```
+
+*Code*:
+```javascript
+template.print(printer, {varOne: "This is truthy", varTwo: 0});
+// Prints "One!"
+```
+
 ## Function list
 
 These are the functions that are currently implemented for use in the templates.
@@ -158,7 +182,6 @@ Arguments are listed in `[brackets]`, with optional arguments denoted with a `?`
 | `fontsize [w] [h]` | Sets character width × `[w]` and height × `[h]`  (1-8)   | 
 | `reset`            | Resets all formatting options to their defaults          |
 
-
 ### Special elements
 
 | Syntax                                       | Details                                                                                                                      |
@@ -182,6 +205,9 @@ Some details about the template syntax this library uses:
   - Backslash ` \ ` can be used as an escape character anywhere
   - Any argument that isn't a string literal must be an integer or variable reference
   - Some variables are predefined (e.g. `true`, `false` and options listed in the table above)
+- When using a `loop`, all instructions are buffered and will not be evaluated until the `endloop` statement is evaluated;
+- When using an `if`, the argument is evaluated to check whether it is Truthy or not; if it's not, all statements following it until the `endif` will be skipped (but must still have valid syntax);
+  - Nested if-statements are supported 
 
 ### Special settings
 

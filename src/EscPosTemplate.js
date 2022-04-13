@@ -38,7 +38,7 @@ class EscPosTemplate {
   }
 
   static interpretLine(line, printer, data = null, state = null) {
-    if (!line || line.startsWith('#'))
+    if (!line || line.trim().startsWith('#'))
       return;
 
     if (!state)
@@ -58,7 +58,10 @@ class EscPosTemplate {
       throw new Error("interpretInstruction() should never be called without a shared state object");
 
     instruction = instruction.trim();
-    
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Parser
+
     let buffer = "";
     let readingOpcode = true;
     let readingArgs = false;
@@ -86,7 +89,7 @@ class EscPosTemplate {
           finalArgs.push(this.replaceVariables(buffer, data));
         } else {
           const resolvedArg = this.resolveArg(data, buffer);
-          if (resolvedArg) {
+          if (typeof resolvedArg !== "undefined") {
             finalArgs.push(resolvedArg);
           } else {
             throw new Error(`Unresolved variable: ${buffer}`)
@@ -140,10 +143,46 @@ class EscPosTemplate {
 
     _finalizeBufferPart();
 
-    if (finalOpcode === "loop") {
-      // Beginning of loop: start capturing loop lines
+    // -----------------------------------------------------------------------------------------------------------------
+    // Logic breaks
+
+    if (finalOpcode !== "endif" && state.ifBranch > 0 && !state.ifBranchValid) {
+      // Active if-branch that is not truthy, and not an ending opcode;
+      //  → skip instruction entirely (will not ever run)
+      return;
+    }
+
+    if (finalOpcode !== "endloop" && state.iteratorTarget) {
+      // Active loop, and not an ending opcode;
+      //  → add instruction to loop buffer (will run on "endloop")
+      state.iteratorInstructions.push(instruction);
+      return;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Control flow
+
+    if (finalOpcode === "if") {
       if (finalArgs.length !== 1)
-        throw new Error("loop: only expected 1 arg");
+        throw new Error("if: expected 1 arg");
+
+      if (!state.ifBranch)
+        state.ifBranch = 0;
+
+      state.ifBranch++;
+      state.ifBranchValid = !!finalArgs[0];
+    } else if (finalOpcode === "endif") {
+      if (!state.ifBranch)
+        throw new Error("unexpected endif: not in if-branch");
+
+      state.ifBranch--;
+      state.ifBranchValid = true;
+    } else if (finalOpcode === "loop") {
+      if (finalArgs.length !== 1)
+        throw new Error("loop: expected 1 arg");
+
+      if (state.iteratorTarget)
+        throw new Error("unexpected loop: already iterating");
 
       const iteratorTarget = finalArgs[0];
 
@@ -171,10 +210,8 @@ class EscPosTemplate {
 
       state.iteratorTarget = null;
       state.iteratorInstructions = null;
-    } else if (state.iteratorTarget) {
-      // Active loop
-      state.iteratorInstructions.push(instruction);
     } else {
+      // Normal opcode not captured by built in logic
       this.invokeInstruction(printer, finalOpcode, finalArgs);
     }
   }
@@ -229,7 +266,7 @@ class EscPosTemplate {
       } else {
         // Check if accessor was used to access a key on a variable
         let accessorResolved = false;
-        let accessedVariable = null;
+        let accessedVariable = undefined;
 
         if (inputText.indexOf('.') >= 0) {
           let accessorParts = inputText.split('.');
@@ -251,7 +288,7 @@ class EscPosTemplate {
         if (accessorResolved) {
           return accessedVariable;
         } else {
-          return null;
+          return undefined;
         }
       }
     } else {

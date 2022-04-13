@@ -53,6 +53,45 @@ endloop`);
       template.print(mockPrinter, { arr });
       assert.deepEqual(mockPrinter.commands, [`text:a`, `text:b`, `text:c`, `text:d`, `text:e`]);
     });
+
+    it('should support if-branches that evaluate to true', () => {
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`if logicValue; print "test"; endif;`);
+      template.print(mockPrinter, {
+        logicValue: 1
+      });
+      assert.deepEqual(mockPrinter.commands, [`text:test`]);
+    });
+
+    it('should support if-branches that evaluate to false', () => {
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`if logicValue; print "test"; endif;`);
+      template.print(mockPrinter, {
+        logicValue: 0
+      });
+      assert.deepEqual(mockPrinter.commands, []);
+    });
+
+    it('should support if-branches that are nested and mixed', () => {
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`
+      if logicValue1;
+        print "level one";
+        if logicValue2;
+          print "level two";
+          if logicValue3;
+            print "level three";
+          endif;
+        endif;
+      endif;
+      `);
+      template.print(mockPrinter, {
+        logicValue1: true,
+        logicValue2: "yeah",
+        logicValue3: 0
+      });
+      assert.deepEqual(mockPrinter.commands, [`text:level one`, `text:level two`]);
+    });
   });
 
   describe('#interpretLine()', () => {
@@ -62,6 +101,7 @@ endloop`);
 
     it('should do nothing for a commented line', () => {
       EscPosTemplate.interpretLine("# this is a comment", mockPrinter, { }, { });
+      EscPosTemplate.interpretLine("  # this is a tabbed comment", mockPrinter, { }, { });
     });
 
     it('should throw for a badly formatted line', () => {
