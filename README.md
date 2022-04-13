@@ -137,14 +137,15 @@ Arguments are listed in `[brackets]`, with optional arguments denoted with a `?`
 
 ### Core
 
-| Syntax           | Details                                                |
-|------------------|--------------------------------------------------------|
-| `init`           | Reset (initialize) printer                             |
-| `print [text]`   | Prints one line of `text`                              |
-| `feed [n?]`      | Feed `[n]` (1?) amount of lines.                       |
-| `beep [n?] [t?]` | Beep `[n]` (1?) times for `[t]` (1?) × 100 ms duration |
-| `cut [n?]`       | Feeds `[n]` (5?) lines then performs a full cut        |
-| `cashdraw [p]`   | Pulses the cash drawer kick on pin `[p]` (2?)          |
+| Syntax           | Details                                                 |
+|------------------|---------------------------------------------------------|
+| `init`           | Reset (initialize) printer                              |
+| `print [text]`   | Prints one line of `text`                               |
+| `oprint [text]`  | Optionally prints one line of `text`, if it's not falsy |
+| `feed [n?]`      | Feed `[n]` (1?) amount of lines.                        |
+| `beep [n?] [t?]` | Beep `[n]` (1?) times for `[t]` (1?) × 100 ms duration  |
+| `cut [n?]`       | Feeds `[n]` (5?) lines then performs a full cut         |
+| `cashdraw [p]`   | Pulses the cash drawer kick on pin `[p]` (2?)           |
 
 ### Text formatting
 

@@ -27,6 +27,17 @@ class TemplateCommandRegistry {
     ));
 
     this.add(new TemplateCommand(
+      "oprint",
+      (printer, args) => {
+        const arg = args[0] || null;
+        if (!!arg) {
+          this.invoke(printer, "print", [arg]);
+        }
+      },
+      ArgValidation.AtMost(1)
+    ));
+
+    this.add(new TemplateCommand(
       "feed",
       (printer, args) =>
         printer.feed(parseInt(args[0]) || 1),
