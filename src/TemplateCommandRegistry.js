@@ -187,6 +187,7 @@ class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "reset",
       (printer, args) => {
+        this.invoke(printer, "invert", ["off"]);
         this.invoke(printer, "align", ["left"]);
         this.invoke(printer, "bold", ["off"]);
         this.invoke(printer, "underline", ["off"]);
