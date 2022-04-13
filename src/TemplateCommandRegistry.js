@@ -72,6 +72,15 @@ class TemplateCommandRegistry {
     ));
 
     this.add(new TemplateCommand(
+      "linespacing",
+      (printer, args) => {
+        const arg = parseInt(args[0]) || null;
+        printer.lineSpace(arg);
+      },
+      ArgValidation.AtMost(1)
+    ));
+
+    this.add(new TemplateCommand(
       "invert",
       (printer, args) => {
         const arg = args[0];
@@ -187,6 +196,7 @@ class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "reset",
       (printer, args) => {
+        this.invoke(printer, "linespacing", []);
         this.invoke(printer, "invert", ["off"]);
         this.invoke(printer, "align", ["left"]);
         this.invoke(printer, "bold", ["off"]);

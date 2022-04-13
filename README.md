@@ -1,10 +1,8 @@
 # escpos-templates
+🖨️ **Template engine for easily formatting [node-escpos](https://github.com/song940/node-escpos) receipts**
 
 [![Node.js CI](https://github.com/roydejong/node-escpos-templates/actions/workflows/node.js.yml/badge.svg)](https://github.com/roydejong/node-escpos-templates/actions/workflows/node.js.yml)
-
-
-
-**Generic template engine for formatting [node-escpos](https://github.com/song940/node-escpos) receipts**.
+[![npm version](https://badge.fury.io/js/escpos-templates.svg)](https://badge.fury.io/js/escpos-templates)
 
 ## Installation
 
@@ -177,15 +175,16 @@ Arguments are listed in `[brackets]`, with optional arguments denoted with a `?`
 
 ### Text formatting
 
-| Syntax             | Details                                                         |
-|--------------------|-----------------------------------------------------------------|
-| `align [a]`        | Align text `left`, `center` or `right`                          | 
-| `bold [t]`         | Set bold / emphasis to `off` or `on`                            | 
-| `underline [t]`    | Set underline mode to `off`, `on` or `double`                   |
-| `invert [t]`       | Sets inverted mode (white on black printing) to `off` or `on`   |
-| `font [f]`         | Set font to `a`, `b`, or `c`                                    | 
-| `fontsize [w] [h]` | Sets character width × `[w]` and height × `[h]`  (1-8)          | 
-| `reset`            | Resets all formatting options to their defaults                 |
+| Syntax             | Details                                                       |
+|--------------------|---------------------------------------------------------------|
+| `linespacing [n?]` | Sets line spacing to `n` (default?, 1-255) × motion unit      |
+| `invert [t]`       | Sets inverted mode (white on black printing) to `off` or `on` |
+| `align [a]`        | Align text `left`, `center` or `right`                        | 
+| `bold [t]`         | Set bold / emphasis to `off` or `on`                          | 
+| `underline [t]`    | Set underline mode to `off`, `on` or `double`                 |
+| `font [f]`         | Set font to `a`, `b`, or `c`                                  | 
+| `fontsize [w] [h]` | Sets character width × `[w]` and height × `[h]`  (1-8)        | 
+| `reset`            | Resets all formatting options to their defaults               |
 
 ### Special elements
 
