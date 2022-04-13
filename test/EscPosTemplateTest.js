@@ -96,6 +96,39 @@ endloop`);
       });
       assert.deepEqual(mockPrinter.commands, [`text:level one`, `text:level two`]);
     });
+
+    it('should support if-branches in loops', () => {
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`
+      loop arr;
+        if item;
+          print item;
+        endif;
+      endloop;
+      `);
+      template.print(mockPrinter, {
+        arr: ["one", null, "three", false, "four"]
+      });
+      assert.deepEqual(mockPrinter.commands, [`text:one`, `text:three`, `text:four`]);
+    });
+
+    it('should support if-branches in loops in if-branches', () => {
+      mockPrinter.reset();
+      const template = new EscPosTemplate(`
+      if someEval;
+        loop arr;
+          if item;
+            print item;
+          endif;
+        endloop;
+      endif;
+      `);
+      template.print(mockPrinter, {
+        someEval: true,
+        arr: ["one", null, "three", false, "four"]
+      });
+      assert.deepEqual(mockPrinter.commands, [`text:one`, `text:three`, `text:four`]);
+    });
   });
 
   describe('#interpretLine()', () => {
