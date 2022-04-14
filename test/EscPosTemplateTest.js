@@ -168,7 +168,7 @@ endloop`);
     it('should execute chained commands', () => {
       mockPrinter.reset();
       EscPosTemplate.interpretLine("print \"test\"; beep 1 10; feed 3; cut; cashdraw 1", mockPrinter, { }, { });
-      assert.deepEqual(mockPrinter.commands, ["text:test", "beep:1:10", "feed:3", "cut:false:5", "cashdraw:1"]);
+      assert.deepEqual(mockPrinter.commands, ["text:test", "beep:1:10", "feed:3", "text:\x1d\x56\x00", "cashdraw:1"]);
     });
 
     it('should execute commands with variables', () => {
