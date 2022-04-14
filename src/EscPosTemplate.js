@@ -5,7 +5,7 @@ class EscPosTemplate {
     this.templateText = templateText || "";
   }
 
-  print(printer, data) {
+  print(printer, data = null) {
     if (data && typeof data !== "object")
       throw new Error("Invalid data argument: must be object or null");
 
