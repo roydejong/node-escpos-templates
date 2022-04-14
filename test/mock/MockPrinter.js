@@ -10,7 +10,7 @@ class MockPrinter {
   }
 
   print(arg0) { this.commands.push(`text:${arg0}`) }
-  text(arg0) { arg0 = iconv.encode(arg0, 'GB18030'); this.commands.push(`text:${arg0}`) }
+  text(arg0, arg1) { arg0 = iconv.encode(arg0, arg1 || 'CP437'); this.commands.push(`text:${arg0}`) }
   feed(arg0) { this.commands.push(`feed:${arg0}`) }
   beep(arg0, arg1) { this.commands.push(`beep:${arg0}:${arg1}`) }
   cashdraw(arg0) { this.commands.push(`cashdraw:${arg0}`) }

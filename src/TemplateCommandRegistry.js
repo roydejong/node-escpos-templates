@@ -1,5 +1,6 @@
 const ArgValidation = require('./ArgValidation');
 const TemplateCommand = require('./TemplateCommand');
+const iconv = require('iconv-lite');
 const {Image} = require("escpos");
 
 class TemplateCommandRegistry {
@@ -17,14 +18,25 @@ class TemplateCommandRegistry {
       "print",
       (printer, args) => {
         const arg = args[0];
+        const encoding = args[1] || "CP437";
 
         if (typeof arg === "object" && arg instanceof Image) {
           this.invoke(printer, "image", [arg]);
         } else {
-          printer.text(arg.toString());
+          printer.text(arg.toString(), encoding);
         }
       },
-      ArgValidation.Exactly(1)
+      ArgValidation.AtLeast(1)
+    ));
+
+    this.add(new TemplateCommand(
+      "iprint",
+      (printer, args) => {
+        const arg = args[0];
+        const encoding = args[1] || "CP437";
+        printer.print(iconv.encode(arg.toString(), encoding));
+      },
+      ArgValidation.AtLeast(1)
     ));
 
     this.add(new TemplateCommand(

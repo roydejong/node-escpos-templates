@@ -163,16 +163,17 @@ Arguments are listed in `[brackets]`, with optional arguments denoted with a `?`
 
 ### Core
 
-| Syntax           | Details                                                                                                                                          |
-|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| `init`           | Reset (initialize) printer                                                                                                                       |
-| `print [text]`   | Prints one line of encoded `text`, with linebreak                                                                                                |
-| `oprint [text]`  | Optionally prints one line of `text`, if it's not falsy, with linebreak                                                                          |
-| `send [..args]`  | Sends all args as raw, un-encoded text to the printer without linebreak                                                                          |
-| `feed [n?]`      | Feed `[n]` (1?) amount of lines.                                                                                                                 |
-| `beep [n?] [t?]` | Beep `[n]` (1?) times for `[t]` (1?) × 100 ms duration                                                                                           |
-| `cut [m?] [n?]`  | Performs a cut in mode `[m]`, with optional parameter `[n]` ([docs](https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=87)) |
-| `cashdraw [p]`   | Pulses the cash drawer kick on pin `[p]` (2?)                                                                                                    |
+| Syntax            | Details                                                                                                                                               |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `init`            | Reset (initialize) printer                                                                                                                            |
+| `print [t] [e?]`  | Prints text `[t]` with linebreak, in encoding `e` (CP437?)                                                                                            |
+| `iprint [t] [e?]` | Prints inline text `[t]` without linebreak, in encoding `e` (CP437?)                                                                                  |
+| `oprint [text]`   | Optionally prints one line of `text`, if it's not falsy, with linebreak                                                                               |
+| `send [..args]`   | Sends all args as raw, un-encoded text to the printer without linebreak                                                                               |
+| `feed [n?]`       | Feed `[n]` (1?) amount of lines.                                                                                                                      |
+| `beep [n?] [t?]`  | Beep `[n]` (1?) times for `[t]` (1?) × 100 ms duration                                                                                                |
+| `cut [m?] [n?]`   | Performs a cut in mode `[m]` (0?), with optional parameter `[n]` ([docs](https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=87)) |
+| `cashdraw [p]`    | Pulses the cash drawer kick on pin `[p]` (2?)                                                                                                         |
 
 ### Text formatting
 
