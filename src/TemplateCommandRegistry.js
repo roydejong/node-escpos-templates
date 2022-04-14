@@ -67,10 +67,20 @@ class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "cut",
       (printer, args) => {
-        const feedAmount = parseInt(args[0]) || 5;
-        printer.cut(false, feedAmount)
+        const argM = parseInt(args[0]) || 0;
+        const argN = parseInt(args[1]) || 0;
+
+        // GS V [m] [n]
+        const GS_V = "\x1d\x56";
+        if (argM === 65 || argM === 66 || argM === 97 || argM === 98 || argM === 103 || argM === 104) {
+          // Function B, C and D take an extra "n" param
+          printer.print(GS_V + String.fromCodePoint(argM) + String.fromCodePoint(argN));
+        } else {
+          // Function A takes no extra param
+          printer.print(GS_V + String.fromCodePoint(argM));
+        }
       },
-      ArgValidation.AtMost(1)
+      ArgValidation.AtMost(2)
     ));
 
     this.add(new TemplateCommand(

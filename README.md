@@ -163,16 +163,16 @@ Arguments are listed in `[brackets]`, with optional arguments denoted with a `?`
 
 ### Core
 
-| Syntax           | Details                                                                 |
-|------------------|-------------------------------------------------------------------------|
-| `init`           | Reset (initialize) printer                                              |
-| `print [text]`   | Prints one line of encoded `text`, with linebreak                       |
-| `oprint [text]`  | Optionally prints one line of `text`, if it's not falsy, with linebreak |
-| `send [..args]`  | Sends all args as raw, un-encoded text to the printer without linebreak |
-| `feed [n?]`      | Feed `[n]` (1?) amount of lines.                                        |
-| `beep [n?] [t?]` | Beep `[n]` (1?) times for `[t]` (1?) × 100 ms duration                  |
-| `cut [n?]`       | Feeds `[n]` (5?) lines then performs a full cut                         |
-| `cashdraw [p]`   | Pulses the cash drawer kick on pin `[p]` (2?)                           |
+| Syntax           | Details                                                                                                                                          |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| `init`           | Reset (initialize) printer                                                                                                                       |
+| `print [text]`   | Prints one line of encoded `text`, with linebreak                                                                                                |
+| `oprint [text]`  | Optionally prints one line of `text`, if it's not falsy, with linebreak                                                                          |
+| `send [..args]`  | Sends all args as raw, un-encoded text to the printer without linebreak                                                                          |
+| `feed [n?]`      | Feed `[n]` (1?) amount of lines.                                                                                                                 |
+| `beep [n?] [t?]` | Beep `[n]` (1?) times for `[t]` (1?) × 100 ms duration                                                                                           |
+| `cut [m?] [n?]`  | Performs a cut in mode `[m]`, with optional parameter `[n]` ([docs](https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=87)) |
+| `cashdraw [p]`   | Pulses the cash drawer kick on pin `[p]` (2?)                                                                                                    |
 
 ### Text formatting
 
@@ -210,6 +210,7 @@ Some details about the template syntax this library uses:
   - Backslash ` \ ` can be used as an escape character anywhere
   - Any argument that isn't a string literal must be an integer or variable reference
   - Some variables are predefined (e.g. `true`, `false` and options listed in the table above)
+  - If hexadecimal notation (`0x`) is used in place of a variable, it is automatically resolved to the corresponding character
 - When using a `loop`, all instructions are buffered and will not be evaluated until the `endloop` statement is evaluated;
 - When using an `if`, the argument is evaluated to check whether it is Truthy or not; if it's not, all statements following it until the `endif` will be skipped (but must still have valid syntax);
   - Nested if-statements are supported 

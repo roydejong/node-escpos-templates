@@ -265,6 +265,10 @@ class EscPosTemplate {
   }
 
   static resolveArg(data, inputText) {
+    if (inputText.startsWith("0x")) {
+      return String.fromCodePoint(Number(inputText));
+    }
+
     if (isNaN(inputText)) {
       if (data && typeof data[inputText] !== "undefined") {
         // Directly resolve to a variable
@@ -314,7 +318,8 @@ EscPosTemplate.defaultVars = {
   right: "right",
   a: "a",
   b: "b",
-  c: "c"
+  c: "c",
+  LF: "\x0a"
 };
 
 EscPosTemplate.setEnableBarcodeParityBit(true);
