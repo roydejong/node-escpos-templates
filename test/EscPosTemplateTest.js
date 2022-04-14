@@ -161,8 +161,8 @@ endloop`);
 
     it('should throw for an invalid variable count', () => {
       assert.throws(() => {
-        EscPosTemplate.interpretLine('print "var one" "var two";', mockPrinter, { }, { });
-      },/Got 2 args, but expected at most 1/);
+        EscPosTemplate.interpretLine('print;', mockPrinter, { }, { });
+      },/Got 0 args, but expected at least 1/);
     });
 
     it('should execute chained commands', () => {
