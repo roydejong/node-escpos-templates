@@ -194,6 +194,7 @@ Arguments are listed in `[brackets]`, with optional arguments denoted with a `?`
 |----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
 | `image [image] [density?]`                   | Prints a rasterized `[image]` (`escpos.Image` instance)                                                                      | 
 | `barcode [type] [code] [w?] [h?] [tp?] [f?]` | Prints `[code]` of `[type]` with height `[h]` (?), width `[w]` (?) and text position `[tp]` (`below`?) and font `[f]` (`a`?) |
+| `qr [code] [size?] [version?] [level?] `     | Prints QR `[code]` in `[size]` (12?, 1 - 24) with a `[version]` (3?, 1 - 16) and error correction `[level]` (L?, M, Q, H).   |
 
 ## Additional information
 

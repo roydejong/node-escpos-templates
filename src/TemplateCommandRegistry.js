@@ -276,6 +276,19 @@ class TemplateCommandRegistry {
       },
       ArgValidation.AtLeast(2)
     ));
+
+    this.add(new TemplateCommand(
+      "qr",
+      (printer, args) => {
+        const argCode = args[0].toString();
+        const argSize = parseInt(args[1]) || 12;
+        const argVersion = parseInt(args[2]) || 3;
+        const argLevel = args[3] || "L";
+
+        printer.qrcode(argCode, argVersion, argLevel, argSize);
+      },
+      ArgValidation.AtLeast(1)
+    ));
   }
 
   static add(templateCommand) {
