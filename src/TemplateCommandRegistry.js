@@ -9,7 +9,7 @@ class TemplateCommandRegistry {
     this.add(new TemplateCommand(
       "init",
       (printer, args) =>
-        printer.text("\x1b\x40"),
+        printer.print("\x1b\x40"),
       ArgValidation.Exactly(0)
     ));
 
@@ -36,6 +36,15 @@ class TemplateCommandRegistry {
         }
       },
       ArgValidation.AtMost(1)
+    ));
+
+    this.add(new TemplateCommand(
+      "send",
+      (printer, args) => {
+        args.forEach(arg => {
+          printer.print(arg.toString());
+        });
+      }
     ));
 
     this.add(new TemplateCommand(
@@ -86,9 +95,9 @@ class TemplateCommandRegistry {
         const arg = args[0];
 
         if (arg && (arg !== "off" && arg !== "false")) {
-          printer.text("\x1d\x42\x01"); // Inverse mode ON
+          printer.print("\x1d\x42\x01"); // Inverse mode ON
         } else {
-          printer.text("\x1d\x42\x00"); // Inverse mode OFF
+          printer.print("\x1d\x42\x00"); // Inverse mode OFF
         }
       },
       ArgValidation.Exactly(1)
@@ -127,12 +136,12 @@ class TemplateCommandRegistry {
           case "1":
           case "true":
           case "on":
-            printer.text("\x1b\x45\x01"); // Bold font ON
+            printer.print("\x1b\x45\x01"); // Bold font ON
             break;
           case "0":
           case "false":
           case "off":
-            printer.text("\x1b\x45\x00"); // Bold font OFF
+            printer.print("\x1b\x45\x00"); // Bold font OFF
             break;
           default:
             throw new Error($`Invalid bold mode: ${args[0]}`);
@@ -148,16 +157,16 @@ class TemplateCommandRegistry {
           case "1":
           case "true":
           case "on":
-            printer.text("\x1b\x2d\x01"); // Underline font 1-dot ON
+            printer.print("\x1b\x2d\x01"); // Underline font 1-dot ON
             break;
           case "2":
           case "double":
-            printer.text("\x1b\x2d\x02"); // Underline font 2-dot ON
+            printer.print("\x1b\x2d\x02"); // Underline font 2-dot ON
             break;
           case "0":
           case "false":
           case "off":
-            printer.text("\x1b\x2d\x00"); // Underline font OFF
+            printer.print("\x1b\x2d\x00"); // Underline font OFF
             break;
           default:
             throw new Error($`Invalid underline mode: ${args[0]}`);
