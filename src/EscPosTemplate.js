@@ -30,7 +30,7 @@ class EscPosTemplate {
         EscPosTemplate.interpretLine(line, printer, data, state);
       } catch (err) {
         didError = true;
-        throw new Error(`Template error on line ${lineNumber}: ${err}`);
+        throw new Error(`Template error on line ${lineNumber}: ${err.stack}\n\n\t--- End of original stack trace ---\n`);
       }
     });
 
@@ -319,7 +319,8 @@ EscPosTemplate.defaultVars = {
   a: "a",
   b: "b",
   c: "c",
-  LF: "\x0a"
+  LF: "\x0a",
+  CR: "\x0d"
 };
 
 EscPosTemplate.setEnableBarcodeParityBit(true);
