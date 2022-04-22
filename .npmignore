@@ -1,5 +1,4 @@
 .github/
 example-templates/
 test/
-test.js
 src/testrun.js
